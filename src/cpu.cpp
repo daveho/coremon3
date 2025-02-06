@@ -85,27 +85,16 @@ void CPU::poll() {
   }
 }
 
-// get user time consumed between last two polls (normalized in range 0.0-1.0)
-double CPU::get_user_time( int core_index ) const {
+int CPU::get_user_ticks( int core_index ) const {
   assert( core_index >= 0 );
   assert( core_index < get_num_cores() );
   const Core &core = m_cores[ core_index ];
-  return elapsed( core.now.user, core.last.user );
+  return int( core.now.user - core.last.user );
 }
 
-// get system time consumed between last two polls (normalized in range 0.0-1.0)
-double CPU::get_sys_time( int core_index ) const {
+int CPU::get_sys_ticks( int core_index ) const {
   assert( core_index >= 0 );
   assert( core_index < get_num_cores() );
   const Core &core = m_cores[ core_index ];
-  return elapsed( core.now.sys, core.last.sys );
-}
-
-double CPU::elapsed( uint64_t nowval, uint64_t lastval ) const {
-  uint64_t diff;
-  if ( nowval < lastval )
-    diff = 0; // shouldn't happen
-  else 
-    diff = nowval - lastval;
-  return double(diff) / double(m_ticks_per_sec);
+  return int( core.now.sys - core.last.sys );
 }

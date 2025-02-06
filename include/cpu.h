@@ -37,14 +37,11 @@ public:
   // after calling init()
   void poll();
 
-  // get user time in last second (normalized in range 0.0-1.0)
-  double get_user_time( int core_index ) const;
+  // get number of user ticks since last poll()
+  int get_user_ticks( int core_index ) const;
 
-  // get system time in last second (normalized in range 0.0-1.0)
-  double get_sys_time( int core_index ) const;
-
-private:
-  double elapsed( uint64_t nowval, uint64_t lastval ) const;
+  // get number of system ticks since last poll()
+  int get_sys_ticks( int core_index ) const;
 };
 
 #endif // CPU_H
