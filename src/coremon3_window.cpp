@@ -1,4 +1,5 @@
 #include <cmath>
+#include <string>
 #include "coremon3_window.h"
 
 Coremon3Window::Coremon3Window()
@@ -41,9 +42,68 @@ void Coremon3Window::draw() {
   }
 }
 
+void Coremon3Window::show( int argc, char **argv ) {
+  // Handle coremon3-specific command line arguments.
+  // All other arguments are collected so we can pass them to
+  // Fl_Window::show().
+
+  // command line arguments to pass through to fltkk
+  std::vector<char *> fltk_args;
+
+  // argv[0] stays the same
+  fltk_args.push_back( argv[0] );
+
+  bool always_on_top = false;
+  bool no_border = false;
+
+  for ( int i = 1; i < argc; ++i ) {
+    std::string arg = argv[i];
+
+    if ( arg == "--always-on-top" )
+      always_on_top = true;
+    else if ( arg == "--no-border" )
+      no_border = true;
+    else
+      fltk_args.push_back( argv[i] );
+  }
+  fltk_args.push_back( nullptr );
+
+  if ( no_border )
+    border( 0 );
+
+  // handle fltk options (and actually show the window)
+  Fl_Window::show( int( fltk_args.size() - 1 ), fltk_args.data() );
+
+  if ( always_on_top )
+    set_always_on_top();
+}
+
 void Coremon3Window::on_timer_tick( void *data ) {
   Coremon3Window *w = reinterpret_cast< Coremon3Window* >( data );
   w->m_cpu.poll();
   w->redraw();
   Fl::repeat_timeout( 1.0/POLLS_PER_SEC, on_timer_tick, data );
+}
+
+void Coremon3Window::set_always_on_top() {
+  // See: https://groups.google.com/g/fltkgeneral/c/Je0bmtom-Og
+  XEvent ev;
+  static const char* const names[2] = { "_NET_WM_STATE",
+                                        "_NET_WM_STATE_ABOVE"
+                                      };
+  Atom atoms[ 2 ];
+  fl_open_display();
+  XInternAtoms(fl_display, (char**)names, 2, False, atoms );
+  Atom net_wm_state = atoms[ 0 ];
+  Atom net_wm_state_above = atoms[ 1 ];
+  ev.type = ClientMessage;
+  ev.xclient.window = fl_xid(this);
+  ev.xclient.message_type = net_wm_state;
+  ev.xclient.format = 32;
+  ev.xclient.data.l[ 0 ] = (int) true;
+  ev.xclient.data.l[ 1 ] = net_wm_state_above;
+  ev.xclient.data.l[ 2 ] = 0;
+  XSendEvent(fl_display,
+              DefaultRootWindow(fl_display),  False,
+              SubstructureNotifyMask|SubstructureRedirectMask, &ev);
 }

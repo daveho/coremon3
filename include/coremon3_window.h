@@ -21,9 +21,11 @@ public:
   ~Coremon3Window();
 
   void draw() override;
+  void show( int argc, char **argv );
 
 private:
   static void on_timer_tick( void *data );
+  void set_always_on_top();
 };
 
 #endif // COREMON3_WINDOW_H
