@@ -9,6 +9,7 @@
 class Coremon3Window : public Fl_Window {
 private:
   CPU m_cpu;
+  int m_mouse_x, m_mouse_y;
 
   static const Fl_Color BACKGROUND = 0x00002000;  // very dark blue
   static const Fl_Color USER = 0x1e90ff00;        // dodger blue
@@ -22,6 +23,8 @@ public:
 
   void draw() override;
   void show( int argc, char **argv );
+
+  int handle( int event ) override;
 
 private:
   static void on_timer_tick( void *data );

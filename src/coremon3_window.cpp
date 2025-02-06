@@ -3,7 +3,9 @@
 #include "coremon3_window.h"
 
 Coremon3Window::Coremon3Window()
-  : Fl_Window( 120, 60, "coremon3" ) {
+  : Fl_Window( 120, 60, "coremon3" )
+  , m_mouse_x( 0 )
+  , m_mouse_y( 0 ) {
   m_cpu.init();
   color( BACKGROUND );
   Fl::add_timeout( 1.0/POLLS_PER_SEC, on_timer_tick, static_cast<void*>( this ) );
@@ -14,6 +16,7 @@ Coremon3Window::~Coremon3Window() {
 }
 
 void Coremon3Window::draw() {
+  // paint background
   Fl_Window::draw();
 
   // determine number of cores and expected ticks per poll
@@ -76,6 +79,40 @@ void Coremon3Window::show( int argc, char **argv ) {
 
   if ( always_on_top )
     set_always_on_top();
+}
+
+int Coremon3Window::handle( int event ) {
+  // The idea here is to allow the window to be
+  // moved by dragging anywhere in its visible area.
+  // We also support exiting the program if 'q' or 'Q'
+  // is pressed.
+  switch ( event ) {
+  case FL_PUSH:
+    if ( Fl::event_button1() ) {
+      m_mouse_x = Fl::event_x();
+      m_mouse_y = Fl::event_y();
+      return 1;
+    } else
+      return 0;
+  case FL_DRAG:
+    {
+      int dx = Fl::event_x() - m_mouse_x;
+      int dy = Fl::event_y() - m_mouse_y;
+      int updated_x = x() + dx;
+      int updated_y = y() + dy;
+      resize( updated_x, updated_y, w(), h() );
+      return 1;
+    }
+    case FL_KEYDOWN:
+      {
+        std::string key = Fl::event_text();
+        if ( key == "q" || key == "Q" )
+          hide();
+      }
+      break;
+  }
+
+  return 0;
 }
 
 void Coremon3Window::on_timer_tick( void *data ) {
