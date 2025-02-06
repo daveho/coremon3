@@ -45,6 +45,12 @@ $SOME_PATH/coremon3 --always-on-top --no-border -geometry 120x60-200+0
 
 which positions the window near the upper-right of the display.
 
+## Moving the window
+
+You can use the left mouse button to drag the window in order to move
+it. This is helpful if you've used the `--no-border` command line argument,
+meaning that the window manager window bar isn't shown.
+
 ## Quitting
 
 Typing "q" or "Q" while the mouse pointer is inside the `coremon3`
