@@ -1,8 +1,10 @@
 #include <iostream>
 #include <unistd.h>
+#include "coremon3_window.h"
 #include "cpu.h"
 
 int main( int argc, char **argv ) {
+#if 0
   CPU cpu;
 
   cpu.init();
@@ -16,4 +18,9 @@ int main( int argc, char **argv ) {
   }
 
   return 0;
+#endif
+
+  auto win = Coremon3Window();
+  win.show( argc, argv );
+  return Fl::run();
 }

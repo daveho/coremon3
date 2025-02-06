@@ -1,11 +1,10 @@
-FLTK_CXXFLAGS = -I/usr/lib/fltk -std=gnu++17
-#FLTK_LDFLAGS = -L/usr/lib/x86_64-linux-gnu -lfltk_images -lfltk_forms -lfltk_gl -lfltk -lSM -lICE -lX11 -lXext -lm
+FLTK_CXXFLAGS = -std=gnu++17
 FLTK_LDFLAGS = -lfltk_images -lfltk_forms -lfltk_gl -lfltk -lSM -lICE -lX11 -lXext -lm
 
 CXX = g++
 CXXFLAGS = -g -Wall -Iinclude $(FLTK_CXXFLAGS)
 
-SRCS = main.cpp cpu.cpp
+SRCS = main.cpp cpu.cpp coremon3_window.cpp
 OBJS = $(SRCS:%.cpp=build/%.o)
 
 EXE = build/coremon3
