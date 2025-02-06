@@ -19,7 +19,9 @@ clean :
 	rm -f build/*.o $(EXE)
 
 depend :
-	$(CXX) $(CXXFLAGS) -M $(SRCS:%=src/%) > depend.mak
+	$(CXX) $(CXXFLAGS) -M $(SRCS:%=src/%) \
+		| scripts/fixdeps.rb \
+		> depend.mak
 
 depend.mak :
 	touch $@
