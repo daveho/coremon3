@@ -30,6 +30,10 @@ void CPU::init() {
   if ( m_ticks_per_sec < 0 )
     throw std::runtime_error( "sysconf failed" );
   poll();
+  // to start out with, make it look like no CPU time was
+  // used since the last poll
+  for ( auto &core : m_cores )
+    core.last = core.now;
 }
 
 // get number of cores
