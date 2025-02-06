@@ -61,3 +61,8 @@ meaning that the window manager window bar isn't shown.
 
 Typing "q" or "Q" while the mouse pointer is inside the `coremon3`
 window will exit the program.
+
+# License
+
+`coremon3` is distributed under the terms of the
+[MIT License](https://opensource.org/license/mit).
