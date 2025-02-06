@@ -46,8 +46,7 @@ int CPU::get_ticks_per_sec() const {
   return int(m_ticks_per_sec);
 }
 
-// this should be called once per second
-// after calling init()
+// get updated CPU utilization from /proc/stat
 void CPU::poll() {
   std::ifstream proc_stat("/proc/stat");
   if ( !proc_stat.is_open() )
@@ -89,6 +88,7 @@ void CPU::poll() {
   }
 }
 
+// get number of user ticks since last poll()
 int CPU::get_user_ticks( int core_index ) const {
   assert( core_index >= 0 );
   assert( core_index < get_num_cores() );
@@ -96,6 +96,7 @@ int CPU::get_user_ticks( int core_index ) const {
   return int( core.now.user - core.last.user );
 }
 
+// get number of system ticks since last poll()
 int CPU::get_sys_ticks( int core_index ) const {
   assert( core_index >= 0 );
   assert( core_index < get_num_cores() );

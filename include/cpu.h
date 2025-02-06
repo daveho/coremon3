@@ -33,8 +33,7 @@ public:
   // get number of ticks per second
   int get_ticks_per_sec() const;
 
-  // this should be called once per second
-  // after calling init()
+  // get updated CPU utilization from /proc/stat
   void poll();
 
   // get number of user ticks since last poll()
