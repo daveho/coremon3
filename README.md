@@ -22,6 +22,12 @@ make
 
 The executable is `build/coremon3`.
 
+Here's a screen capture (22 seconds) showing activity on my 6 core/12 thread
+CPU as I run `make depend` followed by `make -j` on a medium-size C++
+project:
+
+![screen capture video](vid/recording.mp4)
+
 ## Invoking
 
 The program supports all of the standard command line arguments
