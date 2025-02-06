@@ -26,7 +26,7 @@ Here's a screen capture (22 seconds) showing activity on my 6 core/12 thread
 CPU as I run `make depend` followed by `make -j` on a medium-size C++
 project:
 
-![screen capture video](vid/recording.mp4)
+![screen capture video](vid/recording.gif)
 
 ## Invoking
 
