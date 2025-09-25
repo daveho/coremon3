@@ -10,7 +10,7 @@ It's implemented using [fltk](https://www.fltk.org/). On Ubuntu 24.04
 and similar, you can install it using the command
 
 ```bash
-sudo apt install libfltk1.3-dev
+sudo apt install libfltk1.3-dev libsm-dev libxext-dev
 ```
 
 To build `coremon3`:
