@@ -21,6 +21,8 @@
 
 #include <cmath>
 #include <string>
+#include <X11/Xlib.h>  // for Xlib functions
+#include <FL/x.H>      // for fl_open_display(), fl_display
 #include "coremon3_window.h"
 
 Coremon3Window::Coremon3Window()
